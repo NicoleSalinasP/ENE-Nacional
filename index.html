@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siglo XXI</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <div class="navbar">
+        <div class="centered-nav">
+            <a href="#" onclick="openLoginForm()">Inicie sesión</a>
+            <a href="#" onclick="openRegisterForm()">Regístrate</a>
+        </div>
+    </div>
+
+    <div class="desc">
+        <h1>Bienvenido a Siglo XXI</h1>
+        <p>Disfruta de una experiencia culinaria única con nuestra mezcla de cocina moderna y recetas tradicionales.</p>
+    </div>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <div class="form-container" id="loginForm" style="display: none;">
+        <button class="close-btn" onclick="closeForm('loginForm')">X</button>
+        <h2>Inicio de Sesión</h2>
+
+        <form action="./php/login.php" method="POST">
+            <label for="correo">Email:</label>
+            <input type="correo" id="correo" name="correo" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+
+        <!-- Opción para recuperar contraseña -->
+        <p style="margin-top: 10px;">
+            <a href="#" onclick="openRecoveryForm()">¿Olvidaste tu contraseña?</a>
+        </p>
+    </div>
+
+    <!-- Formulario de Recuperación de Contraseña -->
+    <div class="form-container" id="recoveryForm" style="display: none;">
+        <button class="close-btn" onclick="closeForm('recoveryForm')">X</button>
+        <h2>Recuperar Contraseña</h2>
+
+        <form action="../php/recovery.php" method="POST">
+            <label for="recoveryEmail">Correo Electrónico:</label>
+            <input type="email" id="recoveryEmail" name="email" required>
+
+            <label for="recoveryTipo">¿Eres?</label>
+            <select id="recoveryTipo" name="tipo" required>
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="voluntario">Voluntario</option>
+                <option value="organizacion">Organización</option>
+            </select>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Formulario de Registro -->
+    <div class="form-container" id="registerForm" style="display: none;">
+        <button class="close-btn" onclick="closeForm('registerForm')">X</button>
+        <h2>Registro</h2>
+
+        <form action="./php/registro.php" method="POST">
+
+            <div id="usuarios" >
+                <!-- Campos específicos para voluntarios -->
+                <label for="rut">RUT:</label>
+                <input type="text" id="rut" name="rut">
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre">
+
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido">
+
+                <label for="correo">Correo Electrónico:</label>
+                <input type="correo" id="correo" name="correo">
+
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password">
+
+                <label for="confirmPassword">Confirmación de Contraseña:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+            </div>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+
+    <!-- Contenedor de mensajes dinámicos -->
+    <div id="messageContainer" class="message-container" style="display: none;"></div>
+
+    <script>
+        function openLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function openRegisterForm() {
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function openRecoveryForm() {
+            document.getElementById('recoveryForm').style.display = 'block';
+        }
+
+        function closeForm(formId) {
+            document.getElementById(formId).style.display = 'none';
+        }
+        
+        function showMessage(message, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.textContent = message;
+            messageContainer.className = type === 'error' ? 'message-container error' : 'message-container success';
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+
+        // Mostrar mensajes dinámicos según parámetros en la URL
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+        const success = params.get('success');
+        if (error) showMessage(error, 'error');
+        if (success) showMessage(success, 'success');
+    </script>
+   
+</body>
+
+<style>
+    .message-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .message-container.success {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .message-container.error {
+        background-color: #f44336;
+        color: white;
+    }
+</style>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" href="../styles/styles.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <br></br>
+    <h1>Bienvenido a Siglo XXI</h1>
+
+</head>
+<body>
+
+    <div style="position: relative;">
+        <button class="toggle-menu" onclick="toggleMenu()">☰ Menú</button>
+        <button class="logout-button" onclick="logout()">Cerrar Sesión</button>
+        <div class="menu" id="menu">
+            <h2>Menú</h2>
+            <a href="admin_index.html" onclick="showContent('Gestionar Usuarios')">Inicio</a>
+            <a href="admin_usuarios.php" onclick="showContent('Gestionar Usuarios')">Gestionar Usuarios</a>
+            <a href="#" onclick="showContent('Gestionar Platos')">Gestionar Platos</a>
+            <a href="#" onclick="showContent('Gestionar Mesas')">Gestionar Mesas</a>
+            <a href="#" onclick="showContent('Gestionar Proveedores')">Gestionar Proveedores</a>
+            <a href="#" onclick="showContent('Reportes')">Reportes</a>
+        </div>
+    </div>
+
+    <div class="content">
+        
+        
+
+        
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+        }
+
+        
+        function logout() {
+          
+          window.location.href = "../index.html";
+          // Aquí podrías agregar lógica adicional para manejar la sesión si es necesario.
+      }
+
+      function showMessage(message, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.textContent = message;
+            messageContainer.className = type === 'error' ? 'message-container error' : 'message-container success';
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+
+        // Mostrar mensajes dinámicos según parámetros en la URL
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+        const success = params.get('success');
+        if (error) showMessage(error, 'error');
+        if (success) showMessage(success, 'success');
+    </script>
+
+</body>
+
+<style>
+    .message-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .message-container.success {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .message-container.error {
+        background-color: #f44336;
+        color: white;
+    }
+</style>
+</html>
